@@ -1,14 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".HomeFragment">
-
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/home_title_textview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textAppearance="@android:style/TextAppearance.SearchResult.Title"
+        android:text="Les 10 derniers relevés"
+        />
+    <TextView
+        android:id="@+id/home_outside_title_textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/home_outside_listview"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/black"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/home_title_textview"
+        android:textAppearance="@android:style/TextAppearance.SearchResult.Title"
+        android:text="Outside"
+        />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/home_inside_title_textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Inside"
+        android:textAppearance="@android:style/TextAppearance.SearchResult.Title"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/home_inside_listview"
+        app:layout_constraintTop_toBottomOf="@id/home_title_textview" />
+
+    <ListView
+        android:id="@+id/home_outside_listview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/hello_blank_fragment"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/home_inside_listview"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/home_outside_title_textview" />
+
+    <ListView
+        android:id="@+id/home_inside_listview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/hello_blank_fragment"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/home_outside_listview"
+        app:layout_constraintTop_toBottomOf="@+id/home_inside_title_textview" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

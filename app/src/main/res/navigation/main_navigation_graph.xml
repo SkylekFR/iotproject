@@ -9,4 +9,9 @@
         android:name="com.example.iotproject.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/navigation_stats_fragment"
+        android:name="com.example.iotproject.StatsFragment"
+        android:label="fragment_stats"
+        tools:layout="@layout/fragment_stats" />
 </navigation>

@@ -10,12 +10,13 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MyAdapter extends BaseAdapter
 
 {
     private Context context;
-    private ArrayList<ClassModel> list;
+    private ArrayList<SensorData> list;
     private LayoutInflater inflater;
 
     public void setContext (Context context)
@@ -30,7 +31,7 @@ public class MyAdapter extends BaseAdapter
         this.inflater = inflater;
     }
 
-    public void setList(ArrayList<ClassModel> list) {
+    public void setList(ArrayList<SensorData> list) {
         this.list = list;
     }
 
@@ -38,7 +39,7 @@ public class MyAdapter extends BaseAdapter
         return inflater;
     }
 
-    public ArrayList<ClassModel> getList() {
+    public ArrayList<SensorData> getList() {
         return list;
     }
 
@@ -46,7 +47,7 @@ public class MyAdapter extends BaseAdapter
         return context;
     }
 
-    public MyAdapter (Context context, ArrayList<ClassModel> list) {
+    public MyAdapter (Context context, ArrayList<SensorData> list) {
         this.setContext(context);
         this.setList(list);
         this.setInflater(LayoutInflater.from(context));
@@ -58,7 +59,7 @@ public class MyAdapter extends BaseAdapter
     }
 
     @Override
-    public ClassModel getItem(int position) {
+    public SensorData getItem(int position) {
         return this.getList().get(position);
     }
 
@@ -82,8 +83,8 @@ public class MyAdapter extends BaseAdapter
 
         TextView temperature = layout.findViewById(R.id.temperature);
         TextView humidite = layout.findViewById(R.id.humidite);
-        temperature.setText(getItem(position).getTemperature().toString());
-        humidite.setText(getItem(position).getHumidite().toString());
+        temperature.setText(String.format(Locale.FRENCH, "%.1f °C", list.get(position).getTemperature()));
+        humidite.setText(String.format(Locale.FRENCH, "%.2f %%", list.get(position).getHumidity()));
         return layout;
     }
 }

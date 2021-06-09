@@ -2,11 +2,24 @@ package com.example.iotproject;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,5 +73,61 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
+
+
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ArrayList<SensorData> listInside = new ArrayList<SensorData>();
+        ArrayList<SensorData> listOutside = new ArrayList<SensorData>();
+        ListView listViewInside = view.findViewById(R.id.home_inside_listview);
+        ListView listViewOutside = view.findViewById(R.id.home_outside_listview);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        MyAdapter adapterInside = new MyAdapter(requireActivity(), listInside);
+        MyAdapter adapterOutside = new MyAdapter(requireActivity(), listOutside);
+        listViewInside.setAdapter(adapterInside);
+        listViewOutside.setAdapter(adapterOutside);
+
+
+        reference.child("/cave/sensor_inside/append").limitToLast(10).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listInside.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    SensorData sensorData = dataSnapshot.getValue(SensorData.class);
+                    listInside.add(sensorData);
+                    // do something with object
+                }
+
+                adapterInside.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        reference.child("/cave/sensor_inside/append").limitToLast(10).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listOutside.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    SensorData sensorData = dataSnapshot.getValue(SensorData.class);
+                    listOutside.add(sensorData);
+                    // do something with object
+                }
+
+                adapterOutside.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 }
