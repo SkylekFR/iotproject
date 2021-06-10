@@ -14,4 +14,9 @@
         android:name="com.example.iotproject.StatsFragment"
         android:label="fragment_stats"
         tools:layout="@layout/fragment_stats" />
+    <fragment
+        android:id="@+id/navigation_wines_fragment"
+        android:name="com.example.iotproject.WineFragment"
+        android:label="fragment_wines"
+        tools:layout="@layout/item_wine_list" />
 </navigation>

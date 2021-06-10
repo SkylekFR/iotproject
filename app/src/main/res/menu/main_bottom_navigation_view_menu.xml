@@ -11,7 +11,7 @@
         android:icon="@drawable/icon_chart" />
 
     <item
-        android:id="@+id/wine_bottle_list"
+        android:id="@+id/wines"
         android:title="Wines"
         android:icon="@drawable/icon_wine_bottle" />
 

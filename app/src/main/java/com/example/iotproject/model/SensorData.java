@@ -1,4 +1,4 @@
-package com.example.iotproject;
+package com.example.iotproject.model;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 

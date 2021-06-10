@@ -1,4 +1,4 @@
-package com.example.iotproject.placeholder
+package com.example.iotproject.model.placeholder
 
 import java.util.ArrayList
 import java.util.HashMap

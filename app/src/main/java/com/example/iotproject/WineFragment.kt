@@ -1,61 +1,76 @@
 package com.example.iotproject
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.iotproject.placeholder.PlaceholderContent
+import android.widget.Button
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.iotproject.model.Wine
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 /**
  * A fragment representing a list of Items.
  */
 class WineFragment : Fragment() {
 
-    private var columnCount = 1
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        arguments?.let {
-            columnCount = it.getInt(ARG_COLUMN_COUNT)
-        }
-    }
+    lateinit var addBottleButton: Button
+    lateinit var recyclerView: RecyclerView
+    lateinit var recyclerViewAdapter: MyWineRecyclerViewAdapter
+    lateinit var layoutManager: LinearLayoutManager
+    var wineList = arrayListOf<Wine>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_item_list, container, false)
-
-        // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
-                adapter = MyWineRecyclerViewAdapter(PlaceholderContent.ITEMS)
-            }
-        }
-        return view
+        return inflater.inflate(R.layout.fragment_wine, container, false)
     }
 
     companion object {
 
-        // TODO: Customize parameter argument names
-        const val ARG_COLUMN_COUNT = "column-count"
-
         // TODO: Customize parameter initialization
         @JvmStatic
-        fun newInstance(columnCount: Int) =
-            WineFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
-                }
+        fun newInstance() =
+            WineFragment()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val reference = FirebaseDatabase.getInstance().reference
+
+        reference.child("/cave/wines/").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                wineList.add(snapshot.getValue(Wine::class.java) as Wine)
+                recyclerViewAdapter.setData(wineList)
             }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+
+        addBottleButton = view.findViewById(R.id.wine_add_bottle_button)
+        layoutManager = LinearLayoutManager(context)
+        recyclerViewAdapter = MyWineRecyclerViewAdapter()
+        recyclerView = view.findViewById(R.id.wine_recyclerview)
+        recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = recyclerViewAdapter
+
+
+        addBottleButton.setOnClickListener {
+            WineAddDialogFragment.newInstance().show(parentFragmentManager, "wine_add_dialog")
+        }
+
+        // Set the adapter
+
     }
 }

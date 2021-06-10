@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/item_wine_name_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="test"
+
+            android:textAppearance="?attr/textAppearanceListItem" />
+
+        <TextView
+            android:id="@+id/item_wine_type_textview"
+            android:layout_width="wrap_content"
+            tools:text="test"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceListItem" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:gravity="end"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/item_wine_date_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="test"
+            android:textAppearance="?attr/textAppearanceListItem" />
+
+        <TextView
+            android:id="@+id/item_wine_creator_textview"
+            android:layout_width="wrap_content"
+            tools:text="test"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceListItem" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

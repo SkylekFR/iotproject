@@ -25,6 +25,10 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(R.id.navigation_stats_fragment)
                     true
                 }
+                R.id.wines -> {
+                    navController.navigate(R.id.navigation_wines_fragment)
+                    true
+                }
                 else -> false
             }
         }
