@@ -7,6 +7,6 @@ import java.util.*
 data class Wine(
     var name: String? = null,
     var creator: String? = null,
-    var year: Date? = null,
+    var date: Date? = null,
     var type: String? = null
     )

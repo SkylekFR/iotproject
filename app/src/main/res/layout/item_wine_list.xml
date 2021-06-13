@@ -47,6 +47,11 @@
             android:textAppearance="?attr/textAppearanceListItem" />
 
     </LinearLayout>
+    <ImageButton
+        android:id="@+id/item_wine_list_delete_imagebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_delete"/>
 
 
 </LinearLayout>

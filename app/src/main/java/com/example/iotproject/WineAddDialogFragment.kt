@@ -1,7 +1,9 @@
 package com.example.iotproject
 
+import android.app.DatePickerDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -23,6 +25,8 @@ class WineAddDialogFragment : DialogFragment() {
     lateinit var wineNameEditText: EditText
     lateinit var addButton: Button
 
+    lateinit var date: Date
+
     lateinit var binding : FragmentWineAddDialogBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,7 +34,7 @@ class WineAddDialogFragment : DialogFragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentWineAddDialogBinding.inflate(inflater,container, false )
-        return inflater.inflate(R.layout.fragment_wine_add_dialog, container, false)
+        return binding.root
     }
 
     companion object {
@@ -43,6 +47,24 @@ class WineAddDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.wineAddButton.setOnClickListener(addButtonOnClickListener())
 
+
+
+        binding.wineAddDateEdittext.setOnClickListener {
+            Log.d("failed", "clicked")
+            val datePickerDialog = DatePickerDialog(requireContext())
+            datePickerDialog.setOnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                val cal = Calendar.getInstance()
+                cal.set(Calendar.YEAR, year)
+                cal.set(Calendar.MONTH, monthOfYear)
+                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+                binding.wineAddDateEdittext.setText(DateFormat.getInstance().format(cal.time))
+                date = cal.time
+            }
+            datePickerDialog.show()
+
+        }
+
     }
 
     private fun addButtonOnClickListener() : View.OnClickListener {
@@ -50,11 +72,12 @@ class WineAddDialogFragment : DialogFragment() {
             val reference = FirebaseDatabase.getInstance().reference
             val wine = Wine(binding.wineAddNameEdittext.text.toString(),
                 binding.wineAddCreatorEdittext.text.toString(),
-                DateFormat.getInstance().parse(binding.wineAddDateEdittext.toString()) ,
+                date,
                 binding.wineAddTypeEdittext.text.toString())
-            reference.child("/cave/wines/").setValue(wine).addOnSuccessListener {
+            reference.child("/cave/wines/").child("${wine.name}").setValue(wine)
+                .addOnSuccessListener {
                 this.dismiss()
-            }
+                }
                 .addOnFailureListener { exception ->
                     Log.d("failed", exception.localizedMessage)
                 }
